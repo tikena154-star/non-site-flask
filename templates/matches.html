@@ -1,0 +1,99 @@
+<!-- matches.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E0B14"><link rel="manifest" href="/manifest.json">
+<title>JUPITE – Matches</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--r:#E8364A;--rose:#FF6B8A;--or:#F5C842;--noir:#0E0B14;--d1:#1A1525;--d2:#231D32;--t:#F0EBF8;--g:#9B8FB0;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--noir);color:var(--t);min-height:100svh;}
+.page{max-width:480px;margin:0 auto;padding:24px 20px calc(90px + env(safe-area-inset-bottom,0px));}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;}
+.logo-sm{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;
+  background:linear-gradient(135deg,var(--r),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+.coin-pill{background:var(--d2);border:1px solid rgba(245,200,66,.3);border-radius:50px;
+  padding:6px 14px;font-size:.8rem;color:var(--or);font-weight:600;cursor:pointer;}
+h1{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;margin-bottom:4px;}
+.sub{color:var(--g);font-size:.86rem;margin-bottom:22px;}
+/* Bulles */
+.bulles{display:flex;gap:14px;overflow-x:auto;padding-bottom:14px;margin-bottom:28px;scrollbar-width:none;}
+.bulles::-webkit-scrollbar{display:none;}
+.bulle{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;min-width:66px;}
+.bav{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;border:2.5px solid var(--d1);
+  box-shadow:0 0 0 2px var(--rose);transition:.2s;}
+.bulle:hover .bav{transform:scale(1.08);}
+.bnm{font-size:.72rem;color:var(--g);}
+.sect{font-size:.76rem;color:var(--g);font-weight:600;letter-spacing:.9px;text-transform:uppercase;margin-bottom:14px;}
+/* Conversations */
+.cv{display:flex;align-items:center;gap:13px;padding:13px;background:var(--d2);
+  border-radius:16px;margin-bottom:9px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.05);transition:.15s;}
+.cv:hover{background:#2A2240;border-color:rgba(255,107,138,.18);}
+.cav{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.ci{flex:1;min-width:0;}
+.cnm{font-weight:600;font-size:.9rem;margin-bottom:2px;}
+.cmsg{font-size:.82rem;color:var(--g);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cdt{font-size:.72rem;color:var(--g);flex-shrink:0;}
+.empty-s{text-align:center;padding:50px 20px;color:var(--g);}
+.empty-s .ei{font-size:3rem;margin-bottom:14px;}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--d1);border-top:1px solid rgba(255,255,255,.07);
+  display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom,8px));z-index:100;}
+nav a{display:flex;flex-direction:column;align-items:center;color:var(--g);text-decoration:none;font-size:.62rem;gap:4px;}
+nav a.on,nav a:hover{color:var(--rose);}
+nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div class="logo-sm">JUPITE</div>
+    <div class="coin-pill" onclick="location.href='/recharger'">🪙 <span id="coins">…</span></div>
+  </div>
+  <h1>Mes Matches</h1>
+  <p class="sub" id="sub">Chargement…</p>
+  <div class="bulles" id="bulles"></div>
+  <div class="sect">Messages</div>
+  <div id="convs"></div>
+</div>
+<nav>
+  <a href="/decouvrir"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Découvrir</a>
+  <a href="/matches" class="on"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Matches</a>
+  <a href="/profil"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</a>
+</nav>
+<script>
+const EMOJIS=['😊','🌟','💃','🧑‍🦱','👩‍🦰','🎭','🌺','🎨','🏄','🎵','🦋','🌙'];
+const BGGR=['linear-gradient(135deg,#E8364A,#FF6B8A)','linear-gradient(135deg,#7B3FF5,#4FACFE)',
+  'linear-gradient(135deg,#F5C842,#F06A22)','linear-gradient(135deg,#4CD964,#00C881)',
+  'linear-gradient(135deg,#E8364A,#F5C842)'];
+async function load(){
+  const [mr,cr]=await Promise.all([fetch('/api/matches'),fetch('/api/pieces/solde')]);
+  const [ms,coins]=[await mr.json(),await cr.json()];
+  document.getElementById('coins').textContent=coins.pieces.toLocaleString();
+  document.getElementById('sub').textContent=ms.length?`${ms.length} match${ms.length>1?'es':''} actif${ms.length>1?'s':''}`:'Aucun match pour l\'instant';
+  const bulles=document.getElementById('bulles');
+  const convs=document.getElementById('convs');
+  if(!ms.length){convs.innerHTML='<div class="empty-s"><div class="ei">💭</div><p>Vos matches apparaîtront ici.<br>Continuez à découvrir des profils !</p></div>';return;}
+  ms.forEach(m=>{
+    const e=EMOJIS[m.id%EMOJIS.length],bg=BGGR[m.id%BGGR.length];
+    const b=document.createElement('div');b.className='bulle';
+    b.innerHTML=`<div class="bav" style="background:${bg}">${e}</div><div class="bnm">${m.prenom||m.username}</div>`;
+    b.onclick=()=>location.href=`/messages/${m.match_id}`;
+    bulles.appendChild(b);
+    const c=document.createElement('div');c.className='cv';
+    c.innerHTML=`<div class="cav" style="background:${bg}">${e}</div>
+      <div class="ci"><div class="cnm">${m.prenom||m.username}, ${m.age||'?'} · ${m.ville||''}</div>
+      <div class="cmsg">${m.dernier_message||'Dites bonjour ! 👋'}</div></div>
+      <div class="cdt">${m.date_match}</div>`;
+    c.onclick=()=>location.href=`/messages/${m.match_id}`;
+    convs.appendChild(c);
+  });
+}
+load();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+</script>
+</body>
+</html>

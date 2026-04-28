@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E0B14"><link rel="manifest" href="/manifest.json">
+<title>JUPITE – Découvrir</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--r:#E8364A;--rose:#FF6B8A;--or:#F5C842;--noir:#0E0B14;--d1:#1A1525;--d2:#231D32;--t:#F0EBF8;--g:#9B8FB0;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--noir);color:var(--t);}
+/* Topbar */
+.top{position:fixed;top:0;left:0;right:0;z-index:50;
+  padding:env(safe-area-inset-top,12px) 20px 12px;
+  background:linear-gradient(var(--noir),transparent);
+  display:flex;align-items:center;justify-content:space-between;}
+.logo-sm{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;
+  background:linear-gradient(135deg,var(--r),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+.coin-badge{background:var(--d2);border:1px solid rgba(245,200,66,.3);border-radius:50px;
+  padding:6px 14px;display:flex;align-items:center;gap:6px;font-size:.82rem;cursor:pointer;}
+.coin-badge span{color:var(--or);font-weight:600;}
+/* Deck */
+.deck{position:fixed;inset:0;top:60px;bottom:110px;
+  display:flex;align-items:center;justify-content:center;}
+/* Cartes */
+.cw{position:absolute;width:min(340px,88vw);height:min(540px,72vh);
+  cursor:grab;user-select:none;touch-action:none;}
+.cw:nth-child(2){transform:scale(.95) translateY(12px);z-index:1;}
+.cw:nth-child(3){transform:scale(.90) translateY(22px);z-index:0;}
+.cw:nth-child(n+4){display:none;}
+.cw:first-child{z-index:10;}
+.card{width:100%;height:100%;border-radius:28px;overflow:hidden;
+  background:linear-gradient(160deg,var(--d1),var(--d2));
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 28px 64px rgba(0,0,0,.65);position:relative;}
+.card-top{height:52%;display:flex;align-items:center;justify-content:center;
+  font-size:5.5rem;background:linear-gradient(160deg,#2D2045,#1A1525);position:relative;}
+.dist-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.55);
+  backdrop-filter:blur(8px);border-radius:50px;padding:4px 10px;
+  font-size:.72rem;color:rgba(240,235,248,.8);}
+.card-body{padding:20px 22px;}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;margin-bottom:2px;}
+.card-meta{color:var(--g);font-size:.84rem;margin-bottom:12px;}
+.card-bio{font-size:.86rem;line-height:1.5;color:rgba(240,235,248,.7);margin-bottom:14px;
+  display: -webkit-box;
+-webkit-line-clamp: 2;
+line-clamp: 2; /* optionnel */
+-webkit-box-orient: vertical;
+overflow: hidden;}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.ctag{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:50px;padding:4px 12px;font-size:.72rem;color:var(--g);}
+/* Overlay Like/Pass */
+.ol,.op{position:absolute;top:22px;border-radius:10px;padding:7px 18px;
+  font-size:1.1rem;font-weight:700;letter-spacing:2px;opacity:0;transition:.15s;border:3px solid;}
+.ol{left:18px;color:#4CD964;border-color:#4CD964;transform:rotate(-14deg);}
+.op{right:18px;color:var(--r);border-color:var(--r);transform:rotate(14deg);}
+/* Actions */
+.actions{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,0px));
+  left:50%;transform:translateX(-50%);display:flex;gap:18px;align-items:center;z-index:50;}
+.ab{width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.45rem;
+  transition:.2s;box-shadow:0 8px 20px rgba(0,0,0,.45);}
+.ab:hover{transform:scale(1.1);}
+.ab-pass{background:var(--d1);border:2px solid rgba(232,54,74,.35);}
+.ab-like{background:linear-gradient(135deg,#4CD964,#00C881);width:70px;height:70px;font-size:1.6rem;}
+.ab-super{background:linear-gradient(135deg,var(--or),#F06A22);}
+/* Empty */
+.empty{display:none;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;text-align:center;gap:14px;padding:40px;}
+.empty-ico{font-size:4rem;}
+.empty h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;}
+.empty p{color:var(--g);font-size:.88rem;line-height:1.6;}
+/* MATCH MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.88);
+  display:flex;align-items:center;justify-content:center;
+  z-index:200;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(12px);}
+.mo.show{opacity:1;pointer-events:all;}
+.mm{background:var(--d1);border-radius:28px;padding:38px 28px;text-align:center;
+  max-width:330px;width:90%;border:1px solid rgba(255,107,138,.25);
+  animation:pop .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes pop{from{transform:scale(.7)}to{transform:scale(1)}}
+.m-hearts{font-size:3.2rem;margin-bottom:10px;animation:hb 1.2s ease-in-out infinite;}
+@keyframes hb{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.m-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--r),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+.m-names{font-size:1.05rem;font-weight:500;margin:6px 0 18px;}
+.m-btns{display:flex;flex-direction:column;gap:10px;}
+.m-btn-msg{background:linear-gradient(135deg,var(--r),var(--rose));color:#fff;border:none;
+  border-radius:50px;padding:14px;font-size:.95rem;font-weight:600;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;}
+.m-btn-cont{background:transparent;color:var(--g);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:50px;padding:13px;font-size:.88rem;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;}
+/* Nav */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--d1);
+  border-top:1px solid rgba(255,255,255,.07);
+  display:flex;justify-content:space-around;
+  padding:10px 0 calc(10px + env(safe-area-inset-bottom,8px));z-index:100;}
+nav a{display:flex;flex-direction:column;align-items:center;color:var(--g);
+  text-decoration:none;font-size:.62rem;gap:4px;transition:.2s;}
+nav a.on,nav a:hover{color:var(--rose);}
+nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="logo-sm">JUPITE</div>
+  <div class="coin-badge" onclick="location.href='/recharger'" title="Mes pièces">
+    🪙 <span id="coinCount">...</span>
+  </div>
+</div>
+
+<div class="deck" id="deck">
+  <div class="empty" id="empty">
+    <div class="empty-ico">✨</div>
+    <h3>C'est tout !</h3>
+    <p>Revenez plus tard pour découvrir<br>de nouveaux profils.</p>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="ab ab-pass" onclick="swipe('pass')" title="Passer">❌</button>
+  <button class="ab ab-like" onclick="swipe('like')" title="J'aime">💚</button>
+  <button class="ab ab-super" onclick="swipe('super')" title="Super Like">⭐</button>
+</div>
+
+<!-- MATCH MODAL -->
+<div class="mo" id="mo">
+  <div class="mm">
+    <div class="m-hearts">💕</div>
+    <div class="m-title">C'est un Match !</div>
+    <div class="m-names" id="mNames"></div>
+    <p style="color:var(--g);font-size:.85rem;margin-bottom:22px;">Vous vous êtes mutuellement appréciés ✨</p>
+    <div class="m-btns">
+      <button class="m-btn-msg" id="mMsg">Envoyer un message</button>
+      <button class="m-btn-cont" onclick="closeMatch()">Continuer</button>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <a href="/decouvrir" class="on">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Découvrir
+  </a>
+  <a href="/matches">
+    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Matches
+  </a>
+  <a href="/profil">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil
+  </a>
+</nav>
+
+<script>
+const EMOJIS=['😊','🌟','💃','🧑‍🦱','👩‍🦰','🎭','🌺','🎨','🏄','🎵','🦋','🌙'];
+let profils=[], idx=0, matchData=null;
+
+// Charger solde pièces
+async function loadCoins(){
+  const r = await fetch('/api/pieces/solde');
+  const d = await r.json();
+  document.getElementById('coinCount').textContent = d.pieces.toLocaleString();
+}
+
+// Géolocalisation auto
+function geoAuto(){
+  if(!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(pos=>{
+    fetch('/api/position',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({lat:pos.coords.latitude,lng:pos.coords.longitude})});
+  },{},{enableHighAccuracy:true,timeout:6000,maximumAge:300000});
+}
+
+async function load(){
+  const r = await fetch('/api/profils');
+  profils = await r.json();
+  if(!profils.length){document.getElementById('empty').style.display='flex';return;}
+  render();
+}
+
+function render(){
+  const deck=document.getElementById('deck');
+  const empty=document.getElementById('empty');
+  deck.innerHTML=''; deck.appendChild(empty);
+  const slice = profils.slice(idx,idx+3);
+  if(!slice.length){empty.style.display='flex';return;}
+  empty.style.display='none';
+  [...slice].reverse().forEach(p=>deck.appendChild(makeCard(p)));
+  attachSwipe(deck.lastElementChild, slice[0]);
+}
+
+function makeCard(p){
+  const e=EMOJIS[p.id%EMOJIS.length];
+  const dist = p.distance_km!=null ? `📍 ${p.distance_km<1?'< 1':p.distance_km} km` : (p.ville||'');
+  const tags = (p.interets||[]).slice(0,3).map(i=>`<span class="ctag">${i}</span>`).join('');
+  const d=document.createElement('div');
+  d.className='cw'; d.dataset.id=p.id;
+  d.innerHTML=`<div class="card">
+    <div class="card-top">${e}<span class="dist-badge">${dist}</span>
+      <div class="ol" id="lk${p.id}">LIKE</div>
+      <div class="op" id="ps${p.id}">PASS</div>
+    </div>
+    <div class="card-body">
+      <div class="card-name">${p.prenom||p.username}, ${p.age||'?'}</div>
+      <div class="card-meta">📍 ${p.ville||'Quelque part'}</div>
+      <div class="card-bio">${p.bio||'Passionné(e) de belles rencontres…'}</div>
+      <div class="card-tags">${tags}</div>
+    </div>
+  </div>`;
+  return d;
+}
+
+function attachSwipe(el,p){
+  if(!el||!p) return;
+  let sx,sy,dx=0,dy=0,drag=false;
+  const start=e=>{drag=true;el.classList.add('dragging');const pt=e.touches?e.touches[0]:e;sx=pt.clientX;sy=pt.clientY;};
+  const move=e=>{
+    if(!drag)return;
+    const pt=e.touches?e.touches[0]:e;
+    dx=pt.clientX-sx; dy=pt.clientY-sy;
+    el.querySelector('.card').style.transform=`translateX(${dx}px) translateY(${dy}px) rotate(${dx/22}deg)`;
+    const lk=document.getElementById('lk'+p.id), ps=document.getElementById('ps'+p.id);
+    if(lk) lk.style.opacity=Math.min(1,Math.max(0,dx/90));
+    if(ps) ps.style.opacity=Math.min(1,Math.max(0,-dx/90));
+  };
+  const end=()=>{
+    if(!drag)return; drag=false; el.classList.remove('dragging');
+    if(Math.abs(dx)>90){
+      const action=dx>0?'like':'pass';
+      animOut(el,dx>0,()=>sendAction(p.id,action));
+    } else {
+      el.querySelector('.card').style.transform='';
+      const lk=document.getElementById('lk'+p.id), ps=document.getElementById('ps'+p.id);
+      if(lk) lk.style.opacity=0; if(ps) ps.style.opacity=0;
+    }
+    dx=0;dy=0;
+  };
+  el.addEventListener('mousedown',start);
+  el.addEventListener('touchstart',start,{passive:true});
+  window.addEventListener('mousemove',move);
+  window.addEventListener('touchmove',move,{passive:true});
+  window.addEventListener('mouseup',end);
+  window.addEventListener('touchend',end);
+}
+
+function animOut(el,right,cb){
+  const c=el.querySelector('.card');
+  c.style.transition='transform .4s ease';
+  c.style.transform=`translateX(${right?900:-900}px) rotate(${right?30:-30}deg)`;
+  setTimeout(cb,350);
+}
+
+async function swipe(action){
+  if(idx>=profils.length) return;
+  const p=profils[idx];
+  const deck=document.getElementById('deck');
+  const top=deck.lastElementChild;
+  if(top&&top.dataset.id) animOut(top,action==='like'||action==='super',()=>sendAction(p.id,action));
+}
+
+async function sendAction(uid,action){
+  idx++;
+  const r=await fetch('/api/like',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user_id:uid,action})});
+  const d=await r.json();
+  if(d.match) showMatch(d.profil);
+  else render();
+}
+
+function showMatch(p){
+  matchData=p;
+  document.getElementById('mNames').textContent=`Vous & ${p.prenom||p.username} 💕`;
+  document.getElementById('mo').classList.add('show');
+  document.getElementById('mMsg').onclick=()=>location.href='/matches';
+}
+
+function closeMatch(){
+  document.getElementById('mo').classList.remove('show');
+  render();
+}
+
+geoAuto();
+loadCoins();
+load();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+</script>
+</body>
+</html>

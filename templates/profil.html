@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E0B14"><link rel="manifest" href="/manifest.json">
+<title>JUPITE – Profil</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--r:#E8364A;--rose:#FF6B8A;--or:#F5C842;--noir:#0E0B14;--d1:#1A1525;--d2:#231D32;--t:#F0EBF8;--g:#9B8FB0;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--noir);color:var(--t);min-height:100svh;}
+.page{max-width:480px;margin:0 auto;padding:24px 20px calc(90px + env(safe-area-inset-bottom,0px));}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.logo-sm{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;
+  background:linear-gradient(135deg,var(--r),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+/* Hero */
+.hero{text-align:center;margin-bottom:26px;}
+.av{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;margin:0 auto 13px;
+  background:linear-gradient(135deg,var(--r),var(--rose),var(--or));
+  border:4px solid var(--d1);}
+.nom{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;margin-bottom:3px;}
+.meta{color:var(--g);font-size:.85rem;}
+/* Pièces hero */
+.coins-hero{background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(232,54,74,.08));
+  border:1.5px solid rgba(245,200,66,.25);border-radius:18px;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.ch-left .chl{font-size:.76rem;color:var(--g);margin-bottom:3px;}
+.ch-left .chv{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--rose),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+.ch-left .chm{font-size:.76rem;color:var(--g);margin-top:4px;}
+.ch-btn{background:linear-gradient(135deg,var(--r),var(--rose));color:#fff;border:none;
+  border-radius:50px;padding:10px 20px;font-size:.82rem;font-weight:600;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:20px;}
+.stat{background:var(--d2);border-radius:15px;padding:14px;text-align:center;border:1px solid rgba(255,255,255,.05);}
+.sv{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:700;
+  background:linear-gradient(135deg,var(--rose),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+.sl{font-size:.7rem;color:var(--g);margin-top:2px;}
+/* Sections */
+.sect{background:var(--d2);border-radius:20px;padding:18px;margin-bottom:14px;border:1px solid rgba(255,255,255,.05);}
+.sh{font-size:.9rem;font-weight:600;margin-bottom:16px;}
+.fg{margin-bottom:14px;}
+label{display:block;font-size:.79rem;color:var(--g);margin-bottom:6px;}
+input,textarea,select{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:12px;color:var(--t);padding:11px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;width:100%;
+  outline:none;transition:border-color .2s;appearance:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--rose);}
+select option{background:var(--d2);}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px;}
+.tag{padding:7px 13px;border:1.5px solid rgba(255,255,255,.1);border-radius:50px;
+  font-size:.78rem;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02);}
+.tag.on{border-color:var(--or);background:rgba(245,200,66,.1);color:var(--or);}
+.btn-save{width:100%;background:linear-gradient(135deg,var(--r),var(--rose));color:#fff;
+  border:none;border-radius:50px;padding:14px;font-size:.96rem;font-weight:600;
+  cursor:pointer;margin-top:6px;transition:.25s;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-save:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(232,54,74,.35);}
+/* CFA section */
+.cfa-info{background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);
+  border-radius:12px;padding:11px 14px;font-size:.8rem;color:var(--g);margin-top:8px;}
+.cfa-info strong{color:var(--or);}
+.btn-deconnex{width:100%;background:transparent;color:var(--g);border:1.5px solid rgba(255,255,255,.1);
+  border-radius:50px;padding:13px;font-size:.9rem;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:4px;}
+/* Toast */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--d2);
+  color:var(--t);padding:10px 22px;border-radius:50px;font-size:.82rem;
+  z-index:999;opacity:0;transition:.3s;pointer-events:none;
+  border:1px solid rgba(76,217,100,.4);}
+.toast.show{opacity:1;}
+/* Nav */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--d1);border-top:1px solid rgba(255,255,255,.07);
+  display:flex;justify-content:space-around;padding:10px 0 calc(10px + env(safe-area-inset-bottom,8px));z-index:100;}
+nav a{display:flex;flex-direction:column;align-items:center;color:var(--g);text-decoration:none;font-size:.62rem;gap:4px;}
+nav a.on,nav a:hover{color:var(--rose);}
+nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <div class="logo-sm">JUPITE</div>
+    <span style="font-size:.8rem;color:var(--g)" id="topEmail"></span>
+  </div>
+
+  <div class="hero">
+    <div class="av" id="avIco">✨</div>
+    <div class="nom" id="nomAff">…</div>
+    <div class="meta" id="metaAff">…</div>
+  </div>
+
+  <!-- Pièces -->
+  <div class="coins-hero">
+    <div class="ch-left">
+      <div class="chl">Mon solde</div>
+      <div class="chv" id="pCoins">… 🪙</div>
+      <div class="chm" id="pMsgs">… messages disponibles</div>
+    </div>
+    <button class="ch-btn" onclick="location.href='/recharger'">Recharger 💳</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="sv" id="sLikes">0</div><div class="sl">Likes reçus</div></div>
+    <div class="stat"><div class="sv" id="sMatches">0</div><div class="sl">Matches</div></div>
+    <div class="stat"><div class="sv" id="sMsgs">0</div><div class="sl">Messages</div></div>
+  </div>
+
+  <!-- Modifier profil -->
+  <div class="sect">
+    <div class="sh">✏️ Mon profil</div>
+    <div class="fg"><label>Prénom</label><input id="fPrenom" placeholder="Prénom"></div>
+    <div class="fg"><label>Âge</label><input type="number" id="fAge" placeholder="Âge"></div>
+    <div class="fg"><label>Ville</label><input id="fVille" placeholder="Ville"></div>
+    <div class="fg"><label>Bio</label><textarea id="fBio" rows="3" placeholder="Parlez de vous…"></textarea></div>
+    <div class="fg"><label>Je cherche</label>
+      <select id="fRech">
+        <option value="homme">Des hommes</option>
+        <option value="femme">Des femmes</option>
+        <option value="les_deux">Les deux</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Intérêts</label>
+      <div class="tags" id="fTags">
+        <span class="tag" data-v="Voyage">✈️ Voyage</span>
+        <span class="tag" data-v="Sport">🏃 Sport</span>
+        <span class="tag" data-v="Cuisine">🍳 Cuisine</span>
+        <span class="tag" data-v="Musique">🎵 Musique</span>
+        <span class="tag" data-v="Cinéma">🎬 Cinéma</span>
+        <span class="tag" data-v="Lecture">📚 Lecture</span>
+        <span class="tag" data-v="Art">🎨 Art</span>
+        <span class="tag" data-v="Gaming">🎮 Gaming</span>
+        <span class="tag" data-v="Nature">🌿 Nature</span>
+        <span class="tag" data-v="Tech">💻 Tech</span>
+      </div>
+    </div>
+    <button class="btn-save" onclick="save()">💾 Enregistrer</button>
+  </div>
+
+  <!-- Devise -->
+  <div class="sect">
+    <div class="sh">💰 Devise & paiement</div>
+    <div class="fg"><label>Ma devise</label>
+      <select id="fDevise" onchange="onDevChange()">
+        <option value="USD">USD $</option>
+        <option value="XOF">FCFA Ouest (XOF)</option>
+        <option value="XAF">FCFA Centre (XAF)</option>
+        <option value="EUR">EUR €</option>
+        <option value="GBP">GBP £</option>
+        <option value="NGN">NGN ₦</option>
+        <option value="GHS">GHS</option>
+        <option value="MAD">MAD</option>
+        <option value="KES">KES</option>
+        <option value="ZAR">ZAR</option>
+      </select>
+    </div>
+    <div class="cfa-info" id="cfaInfo" style="display:none">
+      Vous bénéficiez de <strong>50% de réduction</strong> sur tous les packs de pièces grâce à la zone <strong>Franc CFA</strong> !
+    </div>
+    <button class="btn-save" style="margin-top:12px" onclick="saveDevise()">Enregistrer la devise</button>
+  </div>
+
+  <button class="btn-deconnex" onclick="location.href='/deconnexion'">Se déconnecter</button>
+</div>
+
+<nav>
+  <a href="/decouvrir"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Découvrir</a>
+  <a href="/matches"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Matches</a>
+  <a href="/profil" class="on"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</a>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EMOJIS=['😊','🌟','💃','🧑‍🦱','👩‍🦰','🎭','🌺','🎨','🏄','🎵','🦋','🌙'];
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.className='toast show';setTimeout(()=>t.className='toast',3200);}
+
+async function load(){
+  const [pr,st]=await Promise.all([fetch('/api/profil/moi'),fetch('/api/stats')]);
+  const [p,s]=[await pr.json(),await st.json()];
+  document.getElementById('avIco').textContent=EMOJIS[p.id%EMOJIS.length];
+  document.getElementById('nomAff').textContent=`${p.prenom||p.username}, ${p.age||''}`;
+  document.getElementById('metaAff').textContent=`📍 ${p.ville||'Non renseigné'} · @${p.username}`;
+  document.getElementById('topEmail').textContent=p.email;
+  document.getElementById('pCoins').textContent=`${p.pieces.toLocaleString()} 🪙`;
+  document.getElementById('pMsgs').textContent=`≈ ${Math.floor(p.pieces/40)} messages disponibles`;
+  document.getElementById('sLikes').textContent=s.likes_recus;
+  document.getElementById('sMatches').textContent=s.matches;
+  document.getElementById('sMsgs').textContent=s.messages;
+  document.getElementById('fPrenom').value=p.prenom||'';
+  document.getElementById('fAge').value=p.age||'';
+  document.getElementById('fVille').value=p.ville||'';
+  document.getElementById('fBio').value=p.bio||'';
+  document.getElementById('fRech').value=p.recherche||'les_deux';
+  const devSel=document.getElementById('fDevise');
+  if(p.devise&&devSel.querySelector(`option[value="${p.devise}"]`)) devSel.value=p.devise;
+  onDevChange();
+  (p.interets||[]).forEach(v=>{
+    const t=document.querySelector(`#fTags .tag[data-v="${v}"]`);
+    if(t) t.classList.add('on');
+  });
+}
+
+document.getElementById('fTags').addEventListener('click',e=>{
+  const t=e.target.closest('.tag');
+  if(t) t.classList.toggle('on');
+});
+
+function onDevChange(){
+  const v=document.getElementById('fDevise').value;
+  const isCFA=['XOF','XAF'].includes(v);
+  document.getElementById('cfaInfo').style.display=isCFA?'block':'none';
+}
+
+async function save(){
+  const interets=[...document.querySelectorAll('#fTags .tag.on')].map(t=>t.dataset.v);
+  const r=await fetch('/api/profil/modifier',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prenom:document.getElementById('fPrenom').value,age:+document.getElementById('fAge').value,
+    ville:document.getElementById('fVille').value,bio:document.getElementById('fBio').value,
+    recherche:document.getElementById('fRech').value,interets})});
+  const d=await r.json();
+  if(d.success){toast('✅ Profil enregistré');load();}
+}
+
+async function saveDevise(){
+  const r=await fetch('/api/profil/modifier',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({devise:document.getElementById('fDevise').value})});
+  const d=await r.json();
+  if(d.success) toast('✅ Devise enregistrée');
+}
+
+load();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+</script>
+</body>
+</html>

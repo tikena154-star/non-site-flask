@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E0B14"><link rel="manifest" href="/manifest.json">
+<title>JUPITE – Inscription</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--r:#E8364A;--rose:#FF6B8A;--or:#F5C842;--noir:#0E0B14;--d1:#1A1525;--d2:#231D32;--t:#F0EBF8;--g:#9B8FB0;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--noir);color:var(--t);min-height:100svh;}
+.page{max-width:440px;margin:0 auto;padding:32px 22px 80px;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--r),var(--rose),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+h2{font-size:1.45rem;font-weight:700;margin:6px 0 4px;}
+.sub{color:var(--g);font-size:.88rem;margin-bottom:28px;}
+/* Barre progression */
+.progress{display:flex;gap:6px;margin-bottom:28px;}
+.ps{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.1);transition:.4s;}
+.ps.on{background:linear-gradient(90deg,var(--r),var(--rose));}
+/* Étapes */
+.step{display:none;animation:fadeIn .3s ease;}
+.step.show{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fg{margin-bottom:18px;}
+label{display:block;font-size:.82rem;color:var(--g);margin-bottom:7px;font-weight:500;}
+input,textarea,select{background:var(--d2);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;
+  color:var(--t);padding:13px 16px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:.93rem;width:100%;outline:none;transition:border-color .2s;appearance:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--rose);}
+input::placeholder,textarea::placeholder{color:var(--g);}
+select option{background:var(--d2);}
+/* Pills */
+.pills{display:flex;gap:9px;flex-wrap:wrap;}
+.pill{flex:1;min-width:90px;padding:11px 8px;border:1.5px solid rgba(255,255,255,.1);
+  border-radius:12px;text-align:center;cursor:pointer;transition:.2s;
+  font-size:.88rem;background:var(--d2);}
+.pill.on,.pill:hover{border-color:var(--rose);background:rgba(255,107,138,.1);color:var(--rose);}
+/* Tags */
+.tags{display:flex;gap:8px;flex-wrap:wrap;}
+.tag{padding:8px 15px;border:1.5px solid rgba(255,255,255,.1);border-radius:50px;
+  font-size:.82rem;cursor:pointer;transition:.2s;background:var(--d2);}
+.tag.on{border-color:var(--or);background:rgba(245,200,66,.1);color:var(--or);}
+/* Géo */
+.geo-box{background:var(--d2);border:1.5px solid rgba(255,255,255,.08);border-radius:14px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.2s;}
+.geo-box:hover{border-color:var(--rose);}
+.geo-ico{font-size:1.6rem;}
+.geo-info{flex:1;}
+.geo-tt{font-size:.9rem;font-weight:500;}
+.geo-st{font-size:.78rem;color:var(--g);margin-top:2px;}
+.geo-ok{color:#4CD964;font-size:.8rem;font-weight:500;}
+/* Devise */
+.devise-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.devise-card{background:var(--d2);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;
+  padding:12px;cursor:pointer;transition:.2s;text-align:center;}
+.devise-card.on{border-color:var(--or);background:rgba(245,200,66,.08);}
+.devise-sym{font-size:1.4rem;font-weight:700;color:var(--or);}
+.devise-name{font-size:.75rem;color:var(--g);margin-top:3px;}
+/* CFA badge */
+.cfa-badge{background:linear-gradient(135deg,rgba(245,200,66,.15),rgba(245,200,66,.05));
+  border:1px solid rgba(245,200,66,.3);border-radius:12px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.cfa-badge .ico{font-size:1.4rem;}
+.cfa-badge p{font-size:.82rem;line-height:1.4;color:var(--t);}
+.cfa-badge strong{color:var(--or);}
+/* Boutons */
+.row{display:flex;gap:11px;margin-top:8px;}
+.btn-back{background:var(--d2);border:1.5px solid rgba(255,255,255,.1);color:var(--g);
+  border-radius:50px;padding:13px 18px;cursor:pointer;font-size:.9rem;transition:.2s;
+  font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-next{flex:1;background:linear-gradient(135deg,var(--r),var(--rose));color:#fff;
+  border:none;border-radius:50px;padding:14px;font-size:.98rem;font-weight:600;
+  cursor:pointer;transition:.25s;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(232,54,74,.4);}
+.err{color:var(--r);font-size:.82rem;margin-top:9px;display:none;}
+.lien{text-align:center;margin-top:22px;font-size:.88rem;color:var(--g);}
+.lien a{color:var(--rose);text-decoration:none;}
+/* Pièces bienvenue */
+.welcome-coins{background:linear-gradient(135deg,rgba(232,54,74,.15),rgba(245,200,66,.1));
+  border:1px solid rgba(245,200,66,.3);border-radius:14px;padding:16px;
+  text-align:center;margin-bottom:20px;}
+.wc-num{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:700;
+  background: linear-gradient(135deg, var(--rose), var(--or));
+-webkit-background-clip: text;
+background-clip: text;
+-webkit-text-fill-color: transparent;}
+.wc-txt{font-size:.85rem;color:var(--g);margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="logo">JUPITE</div>
+  <h2>Créer mon profil</h2>
+  <p class="sub">Rejoignez des milliers de célibataires</p>
+  <div class="progress">
+    <div class="ps on" id="p1"></div>
+    <div class="ps" id="p2"></div>
+    <div class="ps" id="p3"></div>
+    <div class="ps" id="p4"></div>
+  </div>
+
+  <!-- ÉTAPE 1 : Compte -->
+  <div class="step show" id="s1">
+    <div class="welcome-coins">
+      <div class="wc-num">🪙 200</div>
+      <div class="wc-txt">pièces offertes à l'inscription · 5 messages gratuits !</div>
+    </div>
+    <div class="fg"><label>Prénom *</label><input id="prenom" placeholder="Votre prénom"></div>
+    <div class="fg"><label>Pseudo *</label><input id="username" placeholder="ex: sophie_paris"></div>
+    <div class="fg"><label>Email *</label><input type="email" id="email" placeholder="votre@email.com"></div>
+    <div class="fg"><label>Mot de passe *</label><input type="password" id="password" placeholder="Minimum 6 caractères"></div>
+    <p class="err" id="e1"></p>
+    <div class="row"><button class="btn-next" onclick="go(2)">Continuer →</button></div>
+  </div>
+
+  <!-- ÉTAPE 2 : Identité -->
+  <div class="step" id="s2">
+    <div class="fg"><label>Âge *</label><input type="number" id="age" placeholder="Votre âge" min="18" max="99"></div>
+    <div class="fg"><label>Je suis *</label>
+      <div class="pills">
+        <div class="pill" data-g="homme" onclick="pick(this,'genre')">👨 Homme</div>
+        <div class="pill" data-g="femme" onclick="pick(this,'genre')">👩 Femme</div>
+        <div class="pill" data-g="autre" onclick="pick(this,'genre')">🌈 Autre</div>
+      </div>
+    </div>
+    <div class="fg"><label>Je cherche *</label>
+      <div class="pills">
+        <div class="pill" data-r="homme" onclick="pick(this,'rech')">👨 Hommes</div>
+        <div class="pill" data-r="femme" onclick="pick(this,'rech')">👩 Femmes</div>
+        <div class="pill" data-r="les_deux" onclick="pick(this,'rech')">💫 Les deux</div>
+      </div>
+    </div>
+    <div class="fg"><label>Ville</label><input id="ville" placeholder="Ex: Abidjan, Paris, Dakar..."></div>
+    <p class="err" id="e2"></p>
+    <div class="row"><button class="btn-back" onclick="go(1)">←</button><button class="btn-next" onclick="go(3)">Continuer →</button></div>
+  </div>
+
+  <!-- ÉTAPE 3 : Géolocalisation + Devise -->
+  <div class="step" id="s3">
+    <div class="fg">
+      <label>📍 Ma position</label>
+      <div class="geo-box" id="geoBox" onclick="geolocate()">
+        <div class="geo-ico">🌍</div>
+        <div class="geo-info">
+          <div class="geo-tt" id="geoTxt">Activer la géolocalisation</div>
+          <div class="geo-st" id="geoSt">Pour trouver des profils près de vous</div>
+        </div>
+      </div>
+    </div>
+    <div class="fg">
+      <label>💰 Ma devise</label>
+      <div id="cfaBadge" class="cfa-badge" style="display:none">
+        <div class="ico">🎉</div>
+        <p>Vous utilisez le <strong>Franc CFA</strong> — Profitez de <strong>50% de réduction</strong> sur tous les packs de pièces !</p>
+      </div>
+      <select id="deviseSelect" onchange="onDevise()">
+        <option value="USD">🇺🇸 Dollar américain (USD $)</option>
+        <option value="XOF">🌍 Franc CFA Ouest (XOF) — -50%</option>
+        <option value="XAF">🌍 Franc CFA Centre (XAF) — -50%</option>
+        <option value="EUR">🇪🇺 Euro (EUR €)</option>
+        <option value="GBP">🇬🇧 Livre sterling (GBP £)</option>
+        <option value="NGN">🇳🇬 Naira nigérian (NGN ₦)</option>
+        <option value="GHS">🇬🇭 Cedi ghanéen (GHS)</option>
+        <option value="MAD">🇲🇦 Dirham marocain (MAD)</option>
+        <option value="KES">🇰🇪 Shilling kényan (KES)</option>
+        <option value="ZAR">🇿🇦 Rand sud-africain (ZAR)</option>
+        <option value="DZD">🇩🇿 Dinar algérien (DZD)</option>
+        <option value="TND">🇹🇳 Dinar tunisien (TND)</option>
+        <option value="CAD">🇨🇦 Dollar canadien (CAD)</option>
+        <option value="CHF">🇨🇭 Franc suisse (CHF)</option>
+        <option value="JPY">🇯🇵 Yen japonais (JPY)</option>
+        <option value="INR">🇮🇳 Roupie indienne (INR)</option>
+        <option value="BRL">🇧🇷 Réal brésilien (BRL)</option>
+        <option value="AED">🇦🇪 Dirham EAU (AED)</option>
+        <option value="SAR">🇸🇦 Riyal saoudien (SAR)</option>
+      </select>
+    </div>
+    <p class="err" id="e3"></p>
+    <div class="row"><button class="btn-back" onclick="go(2)">←</button><button class="btn-next" onclick="go(4)">Continuer →</button></div>
+  </div>
+
+  <!-- ÉTAPE 4 : Bio + Intérêts -->
+  <div class="step" id="s4">
+    <div class="fg"><label>Bio</label>
+      <textarea id="bio" rows="3" placeholder="Parlez de vous en quelques mots..."></textarea>
+    </div>
+    <div class="fg"><label>Centres d'intérêt</label>
+      <div class="tags" id="tagsEl">
+        <span class="tag" data-v="Voyage">✈️ Voyage</span>
+        <span class="tag" data-v="Sport">🏃 Sport</span>
+        <span class="tag" data-v="Cuisine">🍳 Cuisine</span>
+        <span class="tag" data-v="Musique">🎵 Musique</span>
+        <span class="tag" data-v="Cinéma">🎬 Cinéma</span>
+        <span class="tag" data-v="Lecture">📚 Lecture</span>
+        <span class="tag" data-v="Art">🎨 Art</span>
+        <span class="tag" data-v="Gaming">🎮 Gaming</span>
+        <span class="tag" data-v="Nature">🌿 Nature</span>
+        <span class="tag" data-v="Danse">💃 Danse</span>
+        <span class="tag" data-v="Tech">💻 Tech</span>
+        <span class="tag" data-v="Yoga">🧘 Yoga</span>
+      </div>
+    </div>
+    <p class="err" id="e4"></p>
+    <div class="row">
+      <button class="btn-back" onclick="go(3)">←</button>
+      <button class="btn-next" id="btnFin" onclick="submit()">Rejoindre JUPITE 💕</button>
+    </div>
+  </div>
+
+  <p class="lien">Déjà membre ? <a href="/connexion">Se connecter</a></p>
+</div>
+
+<script>
+const fd = {genre:'', rech:'', lat:null, lng:null, pays:'FR', devise:'USD', interets:[]};
+let cur = 1;
+
+function go(n){
+  if(n > cur){
+    if(cur===1){
+      const [pr,un,em,pw] = ['prenom','username','email','password'].map(i=>document.getElementById(i).value);
+      const e = document.getElementById('e1');
+      if(!pr||!un||!em||!pw){e.textContent='Tous les champs sont requis';e.style.display='block';return;}
+      if(pw.length<6){e.textContent='Mot de passe trop court';e.style.display='block';return;}
+      e.style.display='none';
+    }
+    if(cur===2){
+      const e=document.getElementById('e2');
+      const a=document.getElementById('age').value;
+      if(!a||+a<18){e.textContent='Âge invalide (18 ans min)';e.style.display='block';return;}
+      if(!fd.genre){e.textContent='Sélectionnez votre genre';e.style.display='block';return;}
+      if(!fd.rech){e.textContent='Indiquez votre préférence';e.style.display='block';return;}
+      e.style.display='none';
+    }
+  }
+  document.getElementById('s'+cur).classList.remove('show');
+  document.getElementById('s'+n).classList.add('show');
+  for(let i=1;i<=4;i++) document.getElementById('p'+i).classList.toggle('on',i<=n);
+  cur=n;
+  window.scrollTo(0,0);
+}
+
+function pick(el, type){
+  const grp = el.closest('.pills');
+  grp.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  if(type==='genre') fd.genre = el.dataset.g;
+  if(type==='rech')  fd.rech  = el.dataset.r;
+}
+
+document.getElementById('tagsEl').addEventListener('click',e=>{
+  const t=e.target.closest('.tag');
+  if(!t)return;
+  t.classList.toggle('on');
+  const v=t.dataset.v;
+  fd.interets = t.classList.contains('on')
+    ? [...fd.interets,v]
+    : fd.interets.filter(x=>x!==v);
+});
+
+function onDevise(){
+  const v = document.getElementById('deviseSelect').value;
+  fd.devise = v;
+  const isCFA = ['XOF','XAF'].includes(v);
+  document.getElementById('cfaBadge').style.display = isCFA ? 'flex' : 'none';
+}
+
+async function geolocate(){
+  const box = document.getElementById('geoBox');
+  document.getElementById('geoTxt').textContent = 'Localisation en cours...';
+  if(!navigator.geolocation){
+    document.getElementById('geoSt').textContent = 'Géolocalisation non supportée';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    fd.lat = pos.coords.latitude;
+    fd.lng = pos.coords.longitude;
+    // Reverse geocoding via open-meteo / nominatim
+    try {
+      const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${fd.lat}&lon=${fd.lng}&format=json`);
+      const geo = await r.json();
+      const ville = geo.address?.city || geo.address?.town || geo.address?.village || '';
+      const pays  = geo.address?.country_code?.toUpperCase() || 'FR';
+      fd.pays = pays;
+      if(ville) document.getElementById('ville').value = ville;
+      document.getElementById('geoTxt').textContent = ville || 'Position détectée';
+      document.getElementById('geoSt').innerHTML = '<span class="geo-ok">✅ Géolocalisation activée</span>';
+      // Détecter devise CFA
+      const paysCFA=['BJ','BF','CI','GW','ML','NE','SN','TG','CM','CF','TD','CG','GQ','GA'];
+      if(paysCFA.includes(pays)){
+        document.getElementById('deviseSelect').value='XOF';
+        onDevise();
+      }
+    } catch(e){
+      document.getElementById('geoSt').innerHTML = '<span class="geo-ok">✅ Position détectée</span>';
+    }
+  }, ()=>{
+    document.getElementById('geoTxt').textContent = 'Accès refusé';
+    document.getElementById('geoSt').textContent = 'Vous pouvez continuer sans géolocalisation';
+  },{enableHighAccuracy:true,timeout:8000});
+}
+
+async function submit(){
+  const btn=document.getElementById('btnFin');
+  btn.textContent='Création...'; btn.disabled=true;
+  const payload={
+    prenom:document.getElementById('prenom').value,
+    username:document.getElementById('username').value,
+    email:document.getElementById('email').value,
+    password:document.getElementById('password').value,
+    age:+document.getElementById('age').value,
+    ville:document.getElementById('ville').value,
+    bio:document.getElementById('bio').value,
+    sexe:fd.genre, recherche:fd.rech, interets:fd.interets,
+    pays:fd.pays, devise:fd.devise, lat:fd.lat, lng:fd.lng,
+  };
+  try{
+    const r=await fetch('/api/inscription',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data=await r.json();
+    if(data.success) window.location.href=data.redirect;
+    else{
+      document.getElementById('e4').textContent=data.message;
+      document.getElementById('e4').style.display='block';
+      btn.textContent='Rejoindre JUPITE 💕'; btn.disabled=false;
+    }
+  }catch(e){btn.textContent='Rejoindre JUPITE 💕';btn.disabled=false;}
+}
+</script>
+</body>
+</html>

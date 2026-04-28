@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E0B14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JUPITE">
+<link rel="manifest" href="/manifest.json">
+<title>JUPITE</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--r:#E8364A;--rose:#FF6B8A;--or:#F5C842;--noir:#0E0B14;--d1:#1A1525;--d2:#231D32;--t:#F0EBF8;--g:#9B8FB0;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow-x:hidden;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--noir);color:var(--t);min-height:100vh;}
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 60px;position:relative;overflow:hidden;}
+/* orbes */
+.o{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;}
+.o1{width:500px;height:500px;background:var(--r);opacity:.25;top:-120px;left:-120px;animation:fl 9s ease-in-out infinite;}
+.o2{width:380px;height:380px;background:#7B3FF5;opacity:.2;bottom:-80px;right:-80px;animation:fl 11s ease-in-out infinite reverse;}
+.o3{width:220px;height:220px;background:var(--or);opacity:.18;top:50%;left:50%;transform:translate(-50%,-50%);animation:pu 7s ease-in-out infinite;}
+@keyframes fl{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,25px)}}
+@keyframes pu{0%,100%{opacity:.1}50%{opacity:.3}}
+/* logo */
+.logo{font-family:'Cormorant Garamond',serif;font-size:clamp(5rem,18vw,8rem);font-weight:700;line-height:.9;
+  background:linear-gradient(135deg,var(--r) 0%,var(--rose) 45%,var(--or) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-3px;margin-bottom:10px;background-clip: text;}
+.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1rem,3.5vw,1.4rem);
+  color:rgba(240,235,248,.5);margin-bottom:48px;letter-spacing:.5px;}
+/* cartes démo */
+.demo{position:relative;width:240px;height:190px;margin:0 auto 52px;}
+.dc{position:absolute;width:130px;height:172px;border-radius:22px;overflow:hidden;
+  box-shadow:0 24px 48px rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.dc:nth-child(1){left:0;top:12px;transform:rotate(-9deg);background:linear-gradient(160deg,#221636,rgba(232,54,74,.12));}
+.dc:nth-child(2){right:0;top:0;transform:rotate(7deg);background:linear-gradient(160deg,#1a2036,rgba(123,63,245,.14));}
+.dc:nth-child(3){left:50%;transform:translateX(-50%) rotate(1deg);top:18px;z-index:3;
+  background:linear-gradient(160deg,var(--d1),var(--d2));border:1px solid rgba(255,107,138,.25);}
+.dc-ico{font-size:2.4rem;}
+.dc-n{font-size:.78rem;font-weight:500;color:var(--t);}
+.dc-a{font-size:.7rem;color:var(--g);}
+/* CTA */
+.cta{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px;}
+.btn-p{background:linear-gradient(135deg,var(--r),var(--rose));color:#fff;border:none;
+  border-radius:50px;padding:17px;font-size:1rem;font-weight:600;cursor:pointer;
+  transition:.25s;letter-spacing:.3px;font-family:'Plus Jakarta Sans',sans-serif;}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(232,54,74,.45);}
+.btn-o{background:transparent;color:var(--t);border:1.5px solid rgba(240,235,248,.18);
+  border-radius:50px;padding:16px;font-size:1rem;cursor:pointer;
+  transition:.25s;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;text-align:center;}
+.btn-o:hover{border-color:var(--rose);color:var(--rose);}
+/* stats */
+.stats{margin-top:56px;display:flex;gap:44px;justify-content:center;flex-wrap:wrap;}
+.si{text-align:center;}
+.sn{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--rose),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip: text;}
+.sl{font-size:.75rem;color:var(--g);margin-top:2px;}
+/* PWA banner */
+.pwa-banner{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--d2);
+  border-top:1px solid rgba(255,255,255,.08);padding:16px 20px;
+  flex-direction:column;gap:10px;z-index:50;animation:slideUp .4s ease;}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.pwa-banner.show{display:flex;}
+.pwa-row{display:flex;align-items:center;gap:12px;}
+.pwa-ico{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--r),var(--rose));
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.pwa-txt{flex:1;}
+.pwa-tt{font-weight:600;font-size:.95rem;}
+.pwa-st{font-size:.8rem;color:var(--g);}
+.pwa-btns{display:flex;gap:10px;}
+.pwa-install{background:linear-gradient(135deg,var(--r),var(--rose));color:#fff;border:none;
+  border-radius:50px;padding:9px 22px;font-size:.85rem;font-weight:600;cursor:pointer;flex:1;}
+.pwa-close{background:transparent;color:var(--g);border:1px solid rgba(255,255,255,.15);
+  border-radius:50px;padding:9px 16px;font-size:.85rem;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="o o1"></div><div class="o o2"></div><div class="o o3"></div>
+  <div class="logo">JUPITE</div>
+  <p class="tagline">L'amour commence par une étincelle</p>
+  <div class="demo">
+    <div class="dc"><div class="dc-ico">💃</div><div class="dc-n">Sophie</div><div class="dc-a">26 • Abidjan</div></div>
+    <div class="dc"><div class="dc-ico">🧑</div><div class="dc-n">Lucas</div><div class="dc-a">31 • Dakar</div></div>
+    <div class="dc"><div class="dc-ico">✨</div><div class="dc-n">Emma</div><div class="dc-a">27 • Lyon</div></div>
+  </div>
+  <div class="cta">
+    <button class="btn-p" onclick="location.href='/inscription'">Créer mon profil gratuit</button>
+    <a href="/connexion" class="btn-o">J'ai déjà un compte</a>
+  </div>
+  <div class="stats">
+    <div class="si"><div class="sn">12k+</div><div class="sl">Membres actifs</div></div>
+    <div class="si"><div class="sn">3.4k</div><div class="sl">Matches / jour</div></div>
+    <div class="si"><div class="sn">98%</div><div class="sl">Satisfaction</div></div>
+  </div>
+</div>
+
+<!-- Bannière PWA installation -->
+<div class="pwa-banner" id="pwaBanner">
+  <div class="pwa-row">
+    <div class="pwa-ico">💕</div>
+    <div class="pwa-txt">
+      <div class="pwa-tt">Installer JUPITE</div>
+      <div class="pwa-st">Accès rapide depuis votre écran d'accueil</div>
+    </div>
+  </div>
+  <div class="pwa-btns">
+    <button class="pwa-install" id="btnInstall">📲 Installer</button>
+    <button class="pwa-close" onclick="document.getElementById('pwaBanner').classList.remove('show')">Plus tard</button>
+  </div>
+</div>
+
+<script>
+// ── Service Worker ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+}
+
+// ── PWA Install prompt ──
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaBanner').classList.add('show');
+});
+document.getElementById('btnInstall').addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const {outcome} = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaBanner').classList.remove('show');
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('pwaBanner').classList.remove('show');
+});
+</script>
+</body>
+</html>

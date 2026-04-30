@@ -662,17 +662,21 @@ def seed():
     print("✅ Données de démo créées")
 
 if __name__ == '__main__':
-    import os
-
     os.makedirs('static/uploads', exist_ok=True)
     os.makedirs('static/icons', exist_ok=True)
-
     with app.app_context():
         db.create_all()
-        # seed()  # ⚠️ désactive après premier lancement
-
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+        seed()
+    
+    import platform
+    port = int(os.environ.get('PORT', 5000))
+    
+    if platform.system() == 'Windows':
+        from waitress import serve
+        print("🚀 JUPITE → http://localhost:5000")
+        serve(app, host='0.0.0.0', port=port)
+    else:
+        app.run(host='0.0.0.0', port=port)
 
 
 
